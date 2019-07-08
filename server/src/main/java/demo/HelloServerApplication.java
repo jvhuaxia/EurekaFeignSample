@@ -9,6 +9,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 /**
  * @author Spencer Gibb
  */
@@ -16,16 +18,22 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableDiscoveryClient
 @RestController
 public class HelloServerApplication {
-	@Autowired
-	DiscoveryClient client;
+    @Autowired
+    DiscoveryClient client;
 
-	@RequestMapping("/")
-	public String hello() {
-		ServiceInstance localInstance = client.getLocalServiceInstance();
-		return "Hello World: "+ localInstance.getServiceId()+":"+localInstance.getHost()+":"+localInstance.getPort();
-	}
+    @RequestMapping("/")
+    public String hello() {
+        ServiceInstance localInstance = client.getLocalServiceInstance();
+        return "Hello World: " + localInstance.getServiceId() + ":" + localInstance.getHost() + ":" + localInstance.getPort();
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(HelloServerApplication.class, args);
-	}
+    @RequestMapping("/uuid")
+    public String uuid() {
+        System.out.println("调用了服务端" + System.currentTimeMillis());
+        return UUID.randomUUID().toString();
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(HelloServerApplication.class, args);
+    }
 }

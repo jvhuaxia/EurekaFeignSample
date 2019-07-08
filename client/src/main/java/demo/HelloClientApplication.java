@@ -19,21 +19,29 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @RestController
 @EnableFeignClients
 public class HelloClientApplication {
-	@Autowired
-	HelloClient client;
+    @Autowired
+    HelloClient client;
 
-	@RequestMapping("/")
-	public String hello() {
-		return client.hello();
-	}
+    @RequestMapping("/")
+    public String hello() {
+        return client.hello();
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(HelloClientApplication.class, args);
-	}
+    @RequestMapping("/uuid")
+    public String uuid() {
+        return client.uuid();
+    }
 
-	@FeignClient("HelloServer")
-	interface HelloClient {
-		@RequestMapping(value = "/", method = GET)
-		String hello();
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(HelloClientApplication.class, args);
+    }
+
+    @FeignClient("HelloServer")
+    interface HelloClient {
+        @RequestMapping(value = "/", method = GET)
+        String hello();
+
+        @RequestMapping(value = "/uuid", method = GET)
+        String uuid();
+    }
 }
